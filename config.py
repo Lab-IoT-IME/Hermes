@@ -5,9 +5,18 @@ DEBUG = True
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
 
-# Define the database - we are working with
-# SQLite for this example
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
+# Define the database
+import json
+from urllib.parse import quote_plus
+
+with open('sql_server.json') as f:
+  sql_con = json.load(f)
+
+odbc_str = f"DRIVER={sql_con['driver']};SERVER={sql_con['server']};PORT={sql_con['port']};UID={sql_con['username']};DATABASE={sql_con['database']};PWD={sql_con['password']}"
+connect_str = 'mssql+pyodbc:///?odbc_connect=' + quote_plus(odbc_str)
+
+SQLALCHEMY_DATABASE_URI = connect_str
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 DATABASE_CONNECT_OPTIONS = {}
 
 # Application threads. A common general assumption is
