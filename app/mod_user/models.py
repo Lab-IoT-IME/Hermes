@@ -1,5 +1,8 @@
-from app import db
+from app import db, ma
 from app.mod_common.models import Base, BaseSimple
+
+
+# Models definition
 class User(Base):
   __tablename__ = 'Users'
 
@@ -11,12 +14,12 @@ class User(Base):
   passSalt      = db.Column(db.String(10), nullable=False)
 
   typeId        = db.Column(db.Integer, db.ForeignKey('UserTypes.id'), nullable=False)
-  userType      = db.relationship('UserType', backref='users', uselist=False)
+  userType      = db.relationship('UserType', uselist=False)
 
   userSensorsId = db.Column(db.Integer, db.ForeignKey('UserSensors.id'), nullable=False)
-  userSensor    = db.relationship('UserSensors', backref='users', uselist=False)
+  userSensor    = db.relationship('UserSensors', uselist=False)
 
-  def __init__(self, name, birthday, email, phone, password, passSalt, typeId, userSensorsId):
+  def __init__(self, name, birthday, email, phone, password, passSalt, typeId):
     self.name = name
     self.birthday = birthday
     self.email = email
@@ -24,7 +27,6 @@ class User(Base):
     self.password = password
     self.passSalt = passSalt
     self.typeId = typeId
-    self.userSensorsId = userSensorsId
 
   def __repr__(self): 
     return f"{self.id} - Name: {self.name}"
@@ -54,3 +56,21 @@ class UserType(BaseSimple):
   
   def __repr__(self):
     return f"{self.id} - Name: {self.name} | Individual: {self.individual}"
+
+
+# Schemas definition
+class UserSchema(ma.SQLAlchemyAutoSchema):
+  class Meta:
+    model = User
+    load_instance = True
+  
+  userSensor = ma.Nested("UserSensorsSchema", exclude=("id",))
+  userType = ma.Nested("UserTypeSchema", exclude=("id",))
+
+class UserSensorsSchema(ma.SQLAlchemyAutoSchema):
+  class Meta:
+    model = UserSensors
+
+class UserTypeSchema(ma.SQLAlchemyAutoSchema):
+  class Meta:
+    model = UserType
