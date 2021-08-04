@@ -5,6 +5,7 @@
     "jsonify",
     "mssql",
     "odbc",
-    "pyodbc"
+    "pyodbc",
+    "werkzeug"
   ]
 }
