@@ -7,5 +7,7 @@
     "odbc",
     "pyodbc",
     "werkzeug"
-  ]
+  ],
+  "appService.showBuildDuringDeployPrompt": false,
+  "appService.defaultWebAppToDeploy": "None"
 }
