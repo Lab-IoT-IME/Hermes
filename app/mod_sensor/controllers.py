@@ -14,7 +14,6 @@ def allSensors():
   # This method returns a list of sensors
   if request.method == 'GET':
     args = request.args.to_dict()
-    del args['token']
     return getSensors(args)
 
 @modSensor.route('/', methods=['POST'])

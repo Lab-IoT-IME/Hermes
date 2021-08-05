@@ -14,7 +14,6 @@ modUser = Blueprint('users', __name__, url_prefix='/users')
 def users():
   # This method returns a list of users
   args = request.args.to_dict()
-  del args['token']
   return getUsers(args)
   
 @modUser.route('/', methods=['POST'])
@@ -46,7 +45,6 @@ def userSensors(userId):
 def usersTypes():
   # This method returns a list of users types
   args = request.args.to_dict()
-  del args['token']
   return getUsersTypes(args)
 
 @modUser.route('/types', methods=['POST'])

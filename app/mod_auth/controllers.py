@@ -8,7 +8,7 @@ from functools import wraps
 
 modAuth = Blueprint('auth', __name__, url_prefix='/auth')
 
-@modAuth.route('/', methods=['POST'])
+@modAuth.route('/', methods=['GET', 'POST'])
 def auth():
   auth = request.authorization
   print(auth)
