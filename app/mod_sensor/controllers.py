@@ -266,12 +266,17 @@ def createSensorData(body):
     initSeq = body['setSeq']
     sensorDataList = []
 
+    if 'date' not in body:
+      date = dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    else:
+      date = dt.datetime.strptime(body['date'], '%Y-%m-%d %H:%M:%S')
+
     for value in values:
       sensorData = SensorData(
         body['sensorId'], 
         body['userId'], 
         value, 
-        dt.datetime.strptime(body['date'], '%Y-%m-%d'),
+        date,
         body['setId'],
         initSeq
       )
